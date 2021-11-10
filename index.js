@@ -41,6 +41,15 @@ async function run() {
       console.log(result);
       res.json(result);
     });
+
+    //Get Users API
+    app.get("/users", async (req, res) => {
+      const cursor = userCollection.find({});
+      const user = await cursor.toArray();
+      res.json(user);
+    });
+
+    /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
   } finally {
     // await client.close();
   }
