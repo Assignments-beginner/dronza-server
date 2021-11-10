@@ -27,11 +27,12 @@ async function run() {
     const database = client.db("drones");
     // const productCollection = database.collection("products");
     // const dummyCollection = database.collection("dummy");
+    const reviewCollection = database.collection("reviews");
     const userCollection = database.collection("users");
 
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\*-------------------------------------------------------------------------------*/  
+\*-------------------------------------------------------------------------------*/
 
     //POST API For Users
     app.post("/users", async (req, res) => {
@@ -45,10 +46,29 @@ async function run() {
     //Get Users API
     app.get("/users", async (req, res) => {
       const cursor = userCollection.find({});
-      const user = await cursor.toArray();
-      res.json(user);
+      const users = await cursor.toArray();
+      res.json(users);
     });
 
+    /*-------------------------------------------------------------------------------*\
+  //////////////////////////////// Reviews \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+
+    //POST API For Reviews
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      console.log(review);
+      const result = await reviewCollection.insertOne(review);
+      console.log(result);
+      res.json(result);
+    });
+
+    //Get Reviews API
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const reviews = await cursor.toArray();
+      res.json(reviews);
+    });
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
   } finally {
     // await client.close();
