@@ -29,9 +29,9 @@ async function run() {
     // const dummyCollection = database.collection("dummy");
     const userCollection = database.collection("users");
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\*-------------------------------------------------------------------------------*/
+\*-------------------------------------------------------------------------------*/  
 
     //POST API For Users
     app.post("/users", async (req, res) => {
@@ -41,8 +41,6 @@ async function run() {
       console.log(result);
       res.json(result);
     });
-
-
   } finally {
     // await client.close();
   }
