@@ -28,6 +28,7 @@ async function run() {
     // const productCollection = database.collection("products");
     // const dummyCollection = database.collection("dummy");
     const productCollection = database.collection("products");
+    const orderCollection = database.collection("allorders");
     const reviewCollection = database.collection("reviews");
     const userCollection = database.collection("users");
 
@@ -49,6 +50,35 @@ async function run() {
       const cursor = productCollection.find({});
       const products = await cursor.toArray();
       res.json(products);
+    });
+
+    //Get Single Product
+    app.get("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("Single product", id);
+      const query = { _id: ObjectId(id) };
+      const product = await productCollection.findOne(query);
+      res.json(product);
+    });
+
+    /*-------------------------------------------------------------------------------*\
+  //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+
+    // POST API For All Products
+    app.post("/allorders", async (req, res) => {
+      const order = req.body;
+      console.log(order);
+      const result = await orderCollection.insertOne(order);
+      console.log(result);
+      res.json(result);
+    });
+
+    //Get All Products API
+    app.get("/allorders", async (req, res) => {
+      const cursor = orderCollection.find({});
+      const allorders = await cursor.toArray();
+      res.json(allorders);
     });
 
     /*-------------------------------------------------------------------------------*\
