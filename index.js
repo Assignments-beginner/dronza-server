@@ -27,10 +27,31 @@ async function run() {
     const database = client.db("drones");
     // const productCollection = database.collection("products");
     // const dummyCollection = database.collection("dummy");
+    const productCollection = database.collection("products");
     const reviewCollection = database.collection("reviews");
     const userCollection = database.collection("users");
 
-    /*-------------------------------------------------------------------------------*\
+/*-------------------------------------------------------------------------------*\
+  //////////////////////////////// All Products \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+
+    //POST API For Reviews
+    app.post("/products", async (req, res) => {
+      const review = req.body;
+      console.log(review);
+      const result = await productCollection.insertOne(product);
+      console.log(result);
+      res.json(result);
+    });
+
+    //Get Reviews API
+    app.get("/products", async (req, res) => {
+      const cursor = productCollection.find({});
+      const products = await cursor.toArray();
+      res.json(products);
+    });
+
+/*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -50,7 +71,7 @@ async function run() {
       res.json(users);
     });
 
-    /*-------------------------------------------------------------------------------*\
+/*-------------------------------------------------------------------------------*\
   //////////////////////////////// Reviews \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -68,7 +89,9 @@ async function run() {
       const cursor = reviewCollection.find({});
       const reviews = await cursor.toArray();
       res.json(reviews);
-    });
+    }); 
+
+
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
   } finally {
     // await client.close();
