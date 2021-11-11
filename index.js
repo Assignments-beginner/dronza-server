@@ -91,6 +91,22 @@ async function run() {
       res.json(result);
     });
 
+    //Approve Order Change Status
+    app.put("/updateStatus/:id", (req, res) => {
+      const id = req.params.id;
+      const updatedStatus = req.body.status;
+      const filter = { _id: ObjectId(id) };
+      console.log(updatedStatus);
+      orderCollection
+        .updateOne(filter, {
+          $set: { bookedproductStatus: updatedStatus },
+        })
+        .then((result) => {
+          res.send(result);
+          console.log(result);
+        });
+    });
+
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// My Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
