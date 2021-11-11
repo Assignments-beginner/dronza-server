@@ -65,7 +65,7 @@ async function run() {
   //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
-    // POST API For All Products
+    // POST API For All Orders
     app.post("/allorders", async (req, res) => {
       const order = req.body;
       console.log(order);
@@ -74,15 +74,25 @@ async function run() {
       res.json(result);
     });
 
-    //Get All Products API
+    //Get All Orders API
     app.get("/allorders", async (req, res) => {
       const cursor = orderCollection.find({});
       const allorders = await cursor.toArray();
       res.json(allorders);
     });
 
+    //Delete Orders
+    app.delete("/allorders/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("Deleted Order", id);
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.deleteOne(query);
+      console.log("Deleted", result);
+      res.json(result);
+    });
+
     /*-------------------------------------------------------------------------------*\
-  //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //////////////////////////////// My Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
     //Get My Orders by email
