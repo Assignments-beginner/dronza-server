@@ -35,7 +35,7 @@ async function run() {
   //////////////////////////////// All Products \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
-    //POST API For All Products
+    // POST API For All Products
     app.post("/products", async (req, res) => {
       const product = req.body;
       console.log(product);
