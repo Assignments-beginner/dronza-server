@@ -82,6 +82,32 @@ async function run() {
     });
 
     /*-------------------------------------------------------------------------------*\
+  //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+
+    //Get My Orders by email
+    app.get("/myorders", async (req, res) => {
+      let query = {};
+      const email = req.query.email;
+      if (email) {
+        query = { userEmail: email };
+      }
+      const cursor = orderCollection.find(query);
+      const orders = await cursor.toArray();
+      res.json(orders);
+    });
+
+    //Delete My Orders
+    app.delete("/myorders/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("Deleted Order", id);
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.deleteOne(query);
+      console.log("Deleted", result);
+      res.json(result);
+    });
+
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
