@@ -31,27 +31,27 @@ async function run() {
     const reviewCollection = database.collection("reviews");
     const userCollection = database.collection("users");
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// All Products \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
-    //POST API For Reviews
+    //POST API For All Products
     app.post("/products", async (req, res) => {
-      const review = req.body;
-      console.log(review);
+      const product = req.body;
+      console.log(product);
       const result = await productCollection.insertOne(product);
       console.log(result);
       res.json(result);
     });
 
-    //Get Reviews API
+    //Get All Products API
     app.get("/products", async (req, res) => {
       const cursor = productCollection.find({});
       const products = await cursor.toArray();
       res.json(products);
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -71,7 +71,7 @@ async function run() {
       res.json(users);
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Reviews \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -89,8 +89,7 @@ async function run() {
       const cursor = reviewCollection.find({});
       const reviews = await cursor.toArray();
       res.json(reviews);
-    }); 
-
+    });
 
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
   } finally {
