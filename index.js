@@ -61,6 +61,16 @@ async function run() {
       res.json(product);
     });
 
+    //Delete Single Product
+    app.delete("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("Deleted product", id);
+      const query = { _id: ObjectId(id) };
+      const result = await productCollection.deleteOne(query);
+      console.log("Deleted", result);
+      res.json(result);
+    });
+
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
@@ -126,7 +136,7 @@ async function run() {
     //Delete My Orders
     app.delete("/myorders/:id", async (req, res) => {
       const id = req.params.id;
-      console.log("Deleted Order", id);
+      console.log("Deleted MyOrder", id);
       const query = { _id: ObjectId(id) };
       const result = await orderCollection.deleteOne(query);
       console.log("Deleted", result);
