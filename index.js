@@ -53,7 +53,7 @@ async function run() {
     });
     
     //Get All Products API By Pagination
-    app.get('/products', async (req, res) => {
+    app.get('/productspagination', async (req, res) => {
       const cursor = productCollection.find({});
       const page = req.query.page;
       const size = parseInt(req.query.size);
