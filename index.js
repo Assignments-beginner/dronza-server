@@ -45,12 +45,33 @@ async function run() {
       res.json(result);
     });
 
-    //Get All Products API
+    /* //Get All Products API
     app.get("/products", async (req, res) => {
       const cursor = productCollection.find({});
       const products = await cursor.toArray();
       res.json(products);
-    });
+    }); */
+
+    //Get All Products API By Pagination
+    app.get('/products', async (req, res) => {
+      const cursor = productCollection.find({});
+      const page = req.query.page;
+      const size = parseInt(req.query.size);
+      let products;
+      const count = await cursor.count();
+
+      if (page) {
+          products = await cursor.skip(page * size).limit(size).toArray();
+      }
+      else {
+          products = await cursor.toArray();
+      }
+
+      res.send({
+          count,
+          products
+      });
+  });
 
     //Get Single Product
     app.get("/products/:id", async (req, res) => {
