@@ -45,12 +45,12 @@ async function run() {
       res.json(result);
     });
 
-    /* //Get All Products API
+    //Get All Products API
     app.get("/products", async (req, res) => {
       const cursor = productCollection.find({});
       const products = await cursor.toArray();
       res.json(products);
-    }); */
+    });
     
     //Get All Products API By Pagination
     app.get('/products', async (req, res) => {
