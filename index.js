@@ -239,11 +239,11 @@ async function run() {
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Payments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
-    app.get("/payment/:id", async (req, res) => {
+    app.get("/allorders/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      const result = await orderCollection.findOne(query);
-      res.json(result);
+      const payment = await orderCollection.findOne(query);
+      res.json(payment);
     });
 
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
