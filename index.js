@@ -32,7 +32,7 @@ async function run() {
     const reviewCollection = database.collection("reviews");
     const userCollection = database.collection("users");
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// All Products \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -51,25 +51,27 @@ async function run() {
       const products = await cursor.toArray();
       res.json(products);
     });
-    
+
     //Get All Products API By Pagination
-    app.get('/productspagination', async (req, res) => {
+    app.get("/productspagination", async (req, res) => {
       const cursor = productCollection.find({});
       const page = req.query.page;
       const size = parseInt(req.query.size);
       let products;
       const count = await cursor.count();
       if (page) {
-          products = await cursor.skip(page * size).limit(size).toArray();
-      }
-      else {
-          products = await cursor.toArray();
+        products = await cursor
+          .skip(page * size)
+          .limit(size)
+          .toArray();
+      } else {
+        products = await cursor.toArray();
       }
       res.send({
-          count,
-          products
+        count,
+        products,
       });
-  });
+    });
 
     //Get Single Product
     app.get("/products/:id", async (req, res) => {
@@ -90,7 +92,7 @@ async function run() {
       res.json(result);
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// All Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -136,7 +138,7 @@ async function run() {
         });
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// My Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -162,7 +164,7 @@ async function run() {
       res.json(result);
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Users \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -214,7 +216,7 @@ async function run() {
       res.json({ admin: isAdmin });
     });
 
-/*-------------------------------------------------------------------------------*\
+    /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Reviews \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
 
@@ -232,6 +234,16 @@ async function run() {
       const cursor = reviewCollection.find({});
       const reviews = await cursor.toArray();
       res.json(reviews);
+    });
+
+    /*-------------------------------------------------------------------------------*\
+  //////////////////////////////// Payments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+    app.get("/payment/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.findOne(query);
+      res.json(result);
     });
 
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
