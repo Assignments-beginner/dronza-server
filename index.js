@@ -258,7 +258,7 @@ async function run() {
       };
       const result = await orderCollection.updateOne(filter, updateDoc);
       res.json(result);
-    });
+    }); 
 
     app.post("/create-payment-intent", async (req, res) => {
       const paymentInfo = req.body;
