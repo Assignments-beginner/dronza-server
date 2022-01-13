@@ -139,6 +139,20 @@ async function run() {
         });
     });
 
+    //Payment
+    app.put("/payment/:id", async (req, res) => {
+      const id = req.params.id;
+      const payment = req.body;
+      const filter = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          payment: payment,
+        },
+      };
+      const result = await orderCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// My Orders \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
@@ -240,26 +254,6 @@ async function run() {
     /*-------------------------------------------------------------------------------*\
   //////////////////////////////// Payments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \*-------------------------------------------------------------------------------*/
-    app.get("/allorders/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const payment = await orderCollection.findOne(query);
-      res.json(payment);
-    });
-
-    app.put("/allorders/:id", async (req, res) => {
-      const id = req.params.id;
-      const payment = req.body;
-      const filter = { _id: ObjectId(id) };
-      const updateDoc = {
-        $set: {
-          payment: payment,
-        },
-      };
-      const result = await orderCollection.updateOne(filter, updateDoc);
-      res.json(result);
-    }); 
-
     app.post("/create-payment-intent", async (req, res) => {
       const paymentInfo = req.body;
       const amount = paymentInfo.paymentPrice * 100;
@@ -269,6 +263,13 @@ async function run() {
         payment_method_types: ["card"],
       });
       res.json({ clientSecret: paymentIntent.client_secret });
+    });
+
+    app.get("/payment/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const payment = await orderCollection.findOne(query);
+      res.json(payment);
     });
 
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\
