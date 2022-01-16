@@ -1,11 +1,11 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
-const cors = require("cors");
-const ObjectId = require("mongodb").ObjectId;
-require("dotenv").config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
-
 const app = express();
+const cors = require("cors");
+const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+require("dotenv").config();
+
 const port = process.env.PORT || 5000;
 
 ///middleware
@@ -26,7 +26,6 @@ async function run() {
     await client.connect();
     // console.log('Successfully Connected');
     const database = client.db("drones");
-    // const productCollection = database.collection("products");
     // const dummyCollection = database.collection("dummy");
     const productCollection = database.collection("products");
     const orderCollection = database.collection("allorders");
@@ -139,7 +138,31 @@ async function run() {
         });
     });
 
-    //Payment
+    /*-------------------------------------------------------------------------------*\
+  //////////////////////////////// Payments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\*-------------------------------------------------------------------------------*/
+
+    //Post Stripe Payment
+    app.post("/create-payment-intent", async (req, res) => {
+      const paymentInfo = req.body;
+      const amount = paymentInfo.paymentPrice * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: amount,
+        payment_method_types: ["card"],
+      });
+      res.json({ clientSecret: paymentIntent.client_secret });
+    });
+
+    //Get Payment
+    app.get("/payment/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const payment = await orderCollection.findOne(query);
+      res.json(payment);
+    });
+
+    //Payment Update
     app.put("/payment/:id", async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
@@ -249,27 +272,6 @@ async function run() {
       const cursor = reviewCollection.find({});
       const reviews = await cursor.toArray();
       res.json(reviews);
-    });
-
-    /*-------------------------------------------------------------------------------*\
-  //////////////////////////////// Payments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\*-------------------------------------------------------------------------------*/
-    app.post("/create-payment-intent", async (req, res) => {
-      const paymentInfo = req.body;
-      const amount = paymentInfo.paymentPrice * 100;
-      const paymentIntent = await stripe.paymentIntents.create({
-        currency: "usd",
-        amount: amount,
-        payment_method_types: ["card"],
-      });
-      res.json({ clientSecret: paymentIntent.client_secret });
-    });
-
-    app.get("/payment/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const payment = await orderCollection.findOne(query);
-      res.json(payment);
     });
 
     /////////////////////////////END of Async Function\\\\\\\\\\\\\\\\\\\\\\\\\

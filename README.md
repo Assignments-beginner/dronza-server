@@ -2,13 +2,14 @@
 
 <a href="https://drone-za-999.netlify.app/">Check Here...</a>
 
-<li>Check out our awesome drones</li>
+<li>It’s a MERN stack e-commerce project.</li>
 <br />
-<li>We have the best camera resolution for your great vlog videos</li>
+<li>It’s a drone selling web application including special specifications, price and offers. Drones are very useful and famous nowadays for vloging.</li>
 <br />
-<li>The best powerful battery backup you will ever have.</li>
+<li>I have used the most famous frameworks and libraries to build this react web application such as React JS, React-Router, React-Hook-form, React-Bootstrap.</li>
 <br />
-<li>Superfast movement and great range.</li>
+<li>For authentication, I have used Google Firebase and for backend MongoDB database with Node JS including Express JS and for live hosting Netlify and Heroku.</li>
 <br />
-<li>Above all our drone specification will give you more goosebums.</li>
-
+<li>
+Checkout the <a href="https://github.com/Assignments-beginner/dronza-client-site">Client Site</a> code.
+</li>
