@@ -112,6 +112,14 @@ async function run() {
       res.json(allorders);
     });
 
+    //Get Single Order
+    app.get("/allorders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const singleOrder = await orderCollection.findOne(query);
+      res.json(singleOrder);
+    });
+
     //Delete Orders
     app.delete("/allorders/:id", async (req, res) => {
       const id = req.params.id;
@@ -154,16 +162,8 @@ async function run() {
       res.json({ clientSecret: paymentIntent.client_secret });
     });
 
-    //Get Payment
-    app.get("/payment/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const payment = await orderCollection.findOne(query);
-      res.json(payment);
-    });
-
     //Payment Update
-    app.put("/payment/:id", async (req, res) => {
+    app.put("/allorders/:id", async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
       const filter = { _id: ObjectId(id) };
