@@ -3,7 +3,9 @@ const app = express();
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const ObjectId = require("mongodb").ObjectId;
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const Stripe = require('stripe');
+const stripe = Stripe('process.env.STRIPE_SECRET');
+// const stripe = require("stripe")(process.env.STRIPE_SECRET);
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -162,7 +164,7 @@ async function run() {
       res.json({ clientSecret: paymentIntent.client_secret });
     });
 
-    //Payment Update
+    //Payment Paid Confirmation Update
     app.put("/allorders/:id", async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
