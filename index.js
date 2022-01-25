@@ -8,14 +8,17 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 //Stripe Payment Secret Key
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+// const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe = require("stripe")(
+  "sk_test_51KFEd9KfCopy2uC1Q6jo9LMkgCrNwASYlf8EA7Z99sYuelKLAwpWGGE8DVMzUG1y90yuZE6ffl4fZLeaRwGedshV00ReBft1BE"
+);
 
 ///middleware
 
 app.use(
-  cors(({
+  cors({
     origin: "*",
-  }))
+  })
 );
 
 // app.use(cors());
