@@ -13,7 +13,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 ///middleware
 app.use(
   cors({
-    origin: "https://drone-za-999.netlify.app",
+    origin: "*",
     credentials: true,
   })
 );
