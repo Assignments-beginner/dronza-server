@@ -13,9 +13,9 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 ///middleware
 
 app.use(
-  cors({
+  cors(({
     origin: "*",
-  })
+  }))
 );
 
 // app.use(cors());
