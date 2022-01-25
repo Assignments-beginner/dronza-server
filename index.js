@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const ObjectId = require("mongodb").ObjectId;
-require("dotenv").config(); 
+require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 
@@ -11,7 +11,12 @@ const port = process.env.PORT || 5000;
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 ///middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://drone-za-999.netlify.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 //URI
